@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:task/domain/handlers.dart' as handlers;
 import 'package:task/domain/workspace.dart';
 
 final String appdataEnvVar = "TASK_HOME";
@@ -35,6 +35,23 @@ void initializeAppdataPath() {
 
 void main(List<String> arguments) {
   initializeAppdataPath();
+
+  switch (arguments) {
+    case ["workspace" || "ws", "create", var arg]:
+      handlers.handleWorkspaceCreate(arg);
+    case ["workspace" || "ws", "delete", var arg]:
+      handlers.handleWorkspaceDelete(arg);
+    case ["workspace" || "ws", "list"]:
+      handlers.handleWorkspaceList();
+    case ["add", var arg]:
+      handlers.handleTodoAdd(arg);
+    case ["delete" || "remove", var arg]:
+      handlers.handleTodoRemove(arg);
+    case ["done" || "check", ...var args]:
+      handlers.handleTodoCheck(args);
+    case ["list" || "l", ...var args]:
+      handlers.handleTodoList(args);
+  }
   /*
        planned commands:
 
