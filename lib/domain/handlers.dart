@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:nanoid/nanoid.dart';
 import 'package:task/domain/option.dart';
 import 'package:task/domain/pretty_printer.dart';
 import 'package:task/domain/state.dart';
 import 'package:task/domain/todo.dart';
+import 'package:task/domain/workspace.dart';
 import 'package:task/repository/state_repository.dart';
 import 'package:task/repository/todo_repository.dart';
+import 'package:task/repository/workspace_repository.dart';
 
 void handleTodoList(List<String> args) {
   AppState state = readAppState();
@@ -15,9 +19,9 @@ void handleTodoList(List<String> args) {
   bool verbose = options.contains(Option.verbose);
 
   if (options.contains(Option.all)) {
-      print("TODOS");
+    print("TODOS");
     showTodos(todos, verbose);
-      print("DONE TODOS");
+    print("DONE TODOS");
     showDoneTodos(dones, verbose);
   } else {
     showTodos(todos, verbose);
@@ -68,13 +72,51 @@ void handleTodoRemove(String arg) {
 }
 
 void handleWorkspaceCreate(String arg) {
-  print("handleWorkspaceCreate"); // TODO
+  WorkspacesConfig wsconfig = readWorkspacesConfig();
+  wsconfig.workspaces.add(Workspace(id: nanoid(), name: arg));
+  saveWorkspacesConfig(wsconfig);
 }
 
 void handleWorkspaceDelete(String arg) {
-  print("handleWorkspaceDelete"); // TODO
+  WorkspacesConfig wsconfig = readWorkspacesConfig();
+  var filtered = wsconfig.workspaces.where((it) => it.id != arg).toList();
+  if (wsconfig.workspaces.length == filtered.length) {
+    print("no workspace with id '$arg' found.");
+    return;
+  }
+  wsconfig.workspaces = filtered;
+  saveWorkspacesConfig(wsconfig);
 }
 
-void handleWorkspaceList() {
-  print("handleWorkspaceList"); // TODO
+void handleWorkspaceList(List<String> args) {
+  AppState state = readAppState();
+  WorkspacesConfig wsconfig = readWorkspacesConfig();
+
+  List<Workspace> matchingWorkspaces = wsconfig.workspaces
+      .where((it) => it.id == state.activeWorkspace)
+      .toList();
+
+  if (matchingWorkspaces.isEmpty) {
+    print("ERROR: no workspace selected!");
+    exit(1);
+  } else if (matchingWorkspaces.length > 1) {
+    print("ERROR: multiple workspaces with same id!");
+    exit(1);
+  }
+  print(
+      "Selected workspace: [${state.activeWorkspace}] ${matchingWorkspaces[0].name}");
+  print("[#] [id] name");
+  var ws = wsconfig.workspaces;
+  for (int i = 0; i < ws.length; i++) {
+    print("[$i] [${ws[i].id}] ${ws[i].name}");
+  }
+}
+
+void handleWorkspaceSelect(String arg) {
+  AppState state = readAppState();
+  WorkspacesConfig wsconfig = readWorkspacesConfig();
+  Workspace selected =
+      wsconfig.workspaces.firstWhere((it) => it.id == arg || it.name == arg);
+  state.activeWorkspace = selected.id;
+  saveAppState(state);
 }

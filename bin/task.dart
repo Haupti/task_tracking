@@ -29,12 +29,20 @@ void main(List<String> arguments) {
       handlers.handleWorkspaceCreate(arg);
     case ["workspace" || "ws", "delete", var arg]:
       handlers.handleWorkspaceDelete(arg);
-    case ["workspace" || "ws", "list"]:
-      handlers.handleWorkspaceList();
+    case ["workspace" || "ws", "list", ...var args]:
+      handlers.handleWorkspaceList(args);
+    case ["workspace" || "ws", "select", var arg]:
+      handlers.handleWorkspaceSelect(arg);
+    case ["workspace" || "ws", ...]:
+      print("command not known");
     case ["add", var arg]:
       handlers.handleTodoAdd(arg);
+    case ["add", ...]:
+      print("'add' expects exactly one argument");
     case ["delete" || "remove", var arg]:
       handlers.handleTodoRemove(arg);
+    case ["delete" || "remove", ...]:
+      print("'delete/remove' expects exactly one argument");
     case ["done" || "check", ...var args]:
       handlers.handleTodoCheck(args);
     case ["list" || "l", ...var args]:

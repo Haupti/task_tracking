@@ -12,25 +12,25 @@ String prettyDate(int epochMillis) {
 var dateLength = _prettyDateTemplate(1000, 1, 1, 1, 1).length;
 int dateLengthSpacing(String fieldName) => dateLength - fieldName.length;
 
-void showTodos(List<Todo> todos, bool verbose) {
+void showTodos(List<Todo> todos, bool verbose, {String prefix = ""}) {
   if (todos.isEmpty) {
     print("nothing to do...");
     return;
   }
 
   if (verbose) {
-    String row = "[#]   ";
+    String row = "$prefix[#]   ";
     row += "[id]${" " * (todos[0].id.length - 2)}   ";
     row += "[createdAt]${" " * dateLengthSpacing("createdAt")}   ";
     row += "description";
     print(row);
   } else {
-    print("[#]   [description]");
+    print("$prefix[#]   [description]");
   }
 
   int index = 0;
   for (var td in todos) {
-    String row = "";
+    String row = prefix;
     row += "[$index]";
     row += index >= 100
         ? " "
@@ -43,26 +43,26 @@ void showTodos(List<Todo> todos, bool verbose) {
   }
 }
 
-void showDoneTodos(List<DoneTodo> dones, bool verbose) {
+void showDoneTodos(List<DoneTodo> dones, bool verbose, {String prefix = ""}) {
   if (dones.isEmpty) {
     print("nothing to do...");
     return;
   }
 
   if (verbose) {
-    String row = "[#]   ";
+    String row = "$prefix[#]   ";
     row += "[id]${" " * (dones[0].todo.id.length - 2)}   ";
     row += "[createdAt]${" " * dateLengthSpacing("createdAt")}   ";
     row += "[completedAt]${" " * dateLengthSpacing("createdAt")} ";
     row += "description";
     print(row);
   } else {
-    print("[#]   [description]");
+    print("$prefix[#]   [description]");
   }
 
   int index = 0;
   for (var done in dones) {
-    String row = "";
+    String row = prefix;
     row += "[$index]";
     row += index >= 100
         ? " "
