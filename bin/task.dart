@@ -1,35 +1,23 @@
-import 'dart:convert';
 import 'dart:io';
+import 'package:task/config/config.dart' as config;
 import 'package:task/domain/handlers.dart' as handlers;
-import 'package:task/domain/workspace.dart';
-
-final String appdataEnvVar = "TASK_HOME";
 
 void initializeAppdataPath() {
-  String? homePath = Platform.environment["TASK_HOME"];
-  if (homePath == null) {
+  String? path = Platform.environment[config.appdataEnvVar];
+  if (path == null) {
     print("ERROR: TASK_HOME not set.");
     print("please set the environment variable in the context of execution.");
     print(
         "it should point to a location where i can create a .taskdata directory to store all data.");
-    print(
-        "e.g. in bash you can set an alias for this tool: 'export TASK_HOME=/some/path && task'");
+    print("e.g. in bash you can set an alias for this tool:");
+    print("   'export TASK_HOME=/some/path && task'");
     print("aborting...");
     exit(1);
   }
-  var workspacesFilePath = homePath;
-  if (homePath.endsWith("/") || homePath.endsWith("\\")) {
-    workspacesFilePath += ".taskdata/workspaces.json";
+  if (path.endsWith("/") || path.endsWith("\\")) {
+    config.homePath += "$path.taskdata/";
   } else {
-    workspacesFilePath += "/.taskdata/workspaces.json";
-  }
-  File workspacesFile = File(workspacesFilePath);
-  if (workspacesFile.existsSync()) {
-    return;
-  } else {
-    workspacesFile.createSync(recursive: true);
-    workspacesFile.writeAsStringSync(
-        json.encode(WorkspacesConfig(workspaces: []).toJson()));
+    config.homePath += "$path/.taskdata/";
   }
 }
 

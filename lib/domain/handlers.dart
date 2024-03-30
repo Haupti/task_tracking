@@ -1,13 +1,21 @@
 import 'package:nanoid/nanoid.dart';
+import 'package:task/domain/option.dart';
+import 'package:task/domain/pretty_printer.dart';
 import 'package:task/domain/state.dart';
 import 'package:task/domain/todo.dart';
 import 'package:task/repository/state_repository.dart';
 import 'package:task/repository/todo_repository.dart';
 
+
 void handleTodoList(List<String> args) {
   AppState state = readAppState();
   List<Todo> todos = readTodos(state.activeWorkspace);
-  // TODO
+  List<Option> options = parseOptions(args);
+  if (options.contains(Option.verbose)) {
+    showTodos(todos, true);
+  } else {
+    showTodos(todos, false);
+  }
 }
 
 void handleTodoCheck(List<String> args) {

@@ -15,7 +15,9 @@ void saveTodos(List<Todo> todos, WorkspaceId workspaceId) {
   if (!todosFile.existsSync()) {
     todosFile.create(recursive: true);
   }
-  todosFile.writeAsStringSync(json.encode(todos.map((it) => it.toJson())));
+  List<Map<String, dynamic>> jsonTodos =
+      todos.map((it) => it.toJson()).toList();
+  todosFile.writeAsStringSync(json.encode(jsonTodos));
 }
 
 List<Todo> readTodos(WorkspaceId workspaceId) {
@@ -23,10 +25,9 @@ List<Todo> readTodos(WorkspaceId workspaceId) {
   if (!todosFile.existsSync()) {
     return [];
   }
-  return json
-      .decode(todosFile.readAsStringSync())
-      .map((it) => Todo.fromJson(it))
-      .toList();
+  List<dynamic> jsonTodosRaw = json.decode(todosFile.readAsStringSync()).cast();
+  List<Map<String, dynamic>> jsonTodos = jsonTodosRaw.cast();
+  return jsonTodos.map((it) => Todo.fromJson(it)).toList();
 }
 
 void saveDoneTodos(List<DoneTodo> dones, WorkspaceId workspaceId) {

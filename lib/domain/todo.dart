@@ -25,7 +25,7 @@ class Todo {
   static Todo fromJson(Map<String, dynamic> json) {
     return Todo.create(
         id: json["id"],
-        description: json["name"],
+        description: json["description"],
         createdEpochMillis: json["createdEpochMillis"]);
   }
 }
