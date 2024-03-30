@@ -33,6 +33,7 @@ void showTodos(List<Todo> todos, bool verbose) {
     row += verbose ? """[${prettyDate(td.createdEpochMillis)}]   """ : "";
     row += td.description;
     print(row);
+    index += 1;
   }
 }
 

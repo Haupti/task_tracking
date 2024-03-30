@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:task/config/config.dart';
 import 'package:task/domain/workspace.dart';
 
-final File workspacesConfigFile = File("workspaces.json");
+final File workspacesConfigFile = File("$homePath/workspaces.json");
 
 void saveWorkspacesConfig(WorkspacesConfig workspaces) {
   if (!workspacesConfigFile.existsSync()) {
-    workspacesConfigFile.create(recursive: true);
+    workspacesConfigFile.createSync(recursive: true);
   }
   workspacesConfigFile.writeAsStringSync(json.encode(workspaces.toJson()));
 }

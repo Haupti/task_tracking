@@ -15,9 +15,9 @@ void initializeAppdataPath() {
     exit(1);
   }
   if (path.endsWith("/") || path.endsWith("\\")) {
-    config.homePath += "$path.taskdata/";
+    config.homePath = "$path.taskdata";
   } else {
-    config.homePath += "$path/.taskdata/";
+    config.homePath = "$path/.taskdata";
   }
 }
 
