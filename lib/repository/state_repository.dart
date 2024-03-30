@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:task/config/config.dart';
 import 'package:task/domain/state.dart';
 
-final File workspacesConfigFile = File("$homePath/workspaces.json");
+final File workspacesConfigFile = File("$homePath/appstate.json");
 
 void saveAppState(AppState appstate) {
   if (!workspacesConfigFile.existsSync()) {

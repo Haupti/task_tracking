@@ -6,6 +6,7 @@ import 'package:task/domain/pretty_printer.dart';
 import 'package:task/domain/state.dart';
 import 'package:task/domain/todo.dart';
 import 'package:task/domain/workspace.dart';
+import 'package:task/domain/ws_pretty_printer.dart';
 import 'package:task/repository/state_repository.dart';
 import 'package:task/repository/todo_repository.dart';
 import 'package:task/repository/workspace_repository.dart';
@@ -91,24 +92,12 @@ void handleWorkspaceDelete(String arg) {
 void handleWorkspaceList(List<String> args) {
   AppState state = readAppState();
   WorkspacesConfig wsconfig = readWorkspacesConfig();
+  List<Option> options = parseOptions(args);
 
-  List<Workspace> matchingWorkspaces = wsconfig.workspaces
-      .where((it) => it.id == state.activeWorkspace)
-      .toList();
-
-  if (matchingWorkspaces.isEmpty) {
-    print("ERROR: no workspace selected!");
-    exit(1);
-  } else if (matchingWorkspaces.length > 1) {
-    print("ERROR: multiple workspaces with same id!");
-    exit(1);
-  }
-  print(
-      "Selected workspace: [${state.activeWorkspace}] ${matchingWorkspaces[0].name}");
-  print("[#] [id] name");
-  var ws = wsconfig.workspaces;
-  for (int i = 0; i < ws.length; i++) {
-    print("[$i] [${ws[i].id}] ${ws[i].name}");
+  if (options.contains(Option.verbose)) {
+    showWorkspacesWithTodos(wsconfig.workspaces, state.activeWorkspace);
+  } else {
+    showWorkspaces(wsconfig.workspaces, state.activeWorkspace);
   }
 }
 

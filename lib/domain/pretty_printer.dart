@@ -14,7 +14,7 @@ int dateLengthSpacing(String fieldName) => dateLength - fieldName.length;
 
 void showTodos(List<Todo> todos, bool verbose, {String prefix = ""}) {
   if (todos.isEmpty) {
-    print("nothing to do...");
+    print("${prefix}nothing to do...");
     return;
   }
 
@@ -45,7 +45,7 @@ void showTodos(List<Todo> todos, bool verbose, {String prefix = ""}) {
 
 void showDoneTodos(List<DoneTodo> dones, bool verbose, {String prefix = ""}) {
   if (dones.isEmpty) {
-    print("nothing to do...");
+    print("${prefix}nothing to do...");
     return;
   }
 

@@ -13,7 +13,7 @@ class Workspace {
     };
   }
 
-  static Workspace fromJson(Map<String, dynamic> json) {
+  static Workspace fromJson(dynamic json) {
     return Workspace(id: json["id"], name: json["name"]);
   }
 }
@@ -29,9 +29,10 @@ class WorkspacesConfig {
     };
   }
 
-  static WorkspacesConfig fromJson(List<dynamic> json) {
+  static WorkspacesConfig fromJson(Map<String, dynamic> json) {
+      List<dynamic> jsonArray = json["workspaces"];
     return WorkspacesConfig(
-        workspaces: json.map((it) => Workspace.fromJson(it)).toList());
+        workspaces: jsonArray.map((it) => Workspace.fromJson(it)).toList());
   }
 
   WorkspacesConfig.empty():

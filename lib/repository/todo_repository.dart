@@ -24,7 +24,6 @@ void saveTodos(List<Todo> todos, WorkspaceId workspaceId) {
 List<Todo> readTodos(WorkspaceId workspaceId) {
   File todosFile = todosFileFor(workspaceId);
   if (!todosFile.existsSync()) {
-    print(todosFile.path);
     return [];
   }
   List<dynamic> jsonTodosRaw = json.decode(todosFile.readAsStringSync()).cast();
