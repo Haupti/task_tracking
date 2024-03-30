@@ -9,6 +9,9 @@ String prettyDate(int epochMillis) {
   return _prettyDateTemplate(t.year, t.month, t.day, t.hour, t.minute);
 }
 
+var dateLength = _prettyDateTemplate(1000, 1, 1, 1, 1).length;
+int dateLengthSpacing(String fieldName) => dateLength - fieldName.length;
+
 void showTodos(List<Todo> todos, bool verbose) {
   if (todos.isEmpty) {
     print("nothing to do...");
@@ -16,8 +19,11 @@ void showTodos(List<Todo> todos, bool verbose) {
   }
 
   if (verbose) {
-    print(
-        "[#]   [id]${" " * (todos[0].id.length - 2)}   [createdAt]${" " * (_prettyDateTemplate(1000, 1, 1, 1, 1).length - "createdAt".length)}   description");
+    String row = "[#]   ";
+    row += "[id]${" " * (todos[0].id.length - 2)}   ";
+    row += "[createdAt]${" " * dateLengthSpacing("createdAt")}   ";
+    row += "description";
+    print(row);
   } else {
     print("[#]   [description]");
   }
@@ -44,7 +50,12 @@ void showDoneTodos(List<DoneTodo> dones, bool verbose) {
   }
 
   if (verbose) {
-    print("[#]   [id]   [createdAt]   [completedAt]   description");
+    String row = "[#]   ";
+    row += "[id]${" " * (dones[0].todo.id.length - 2)}   ";
+    row += "[createdAt]${" " * dateLengthSpacing("createdAt")}   ";
+    row += "[completedAt]${" " * dateLengthSpacing("createdAt")} ";
+    row += "description";
+    print(row);
   } else {
     print("[#]   [description]");
   }

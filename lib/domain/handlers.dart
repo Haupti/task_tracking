@@ -9,11 +9,18 @@ import 'package:task/repository/todo_repository.dart';
 void handleTodoList(List<String> args) {
   AppState state = readAppState();
   List<Todo> todos = readTodos(state.activeWorkspace);
+  List<DoneTodo> dones = readDoneTodos(state.activeWorkspace);
+
   List<Option> options = parseOptions(args);
-  if (options.contains(Option.verbose)) {
-    showTodos(todos, true);
+  bool verbose = options.contains(Option.verbose);
+
+  if (options.contains(Option.all)) {
+      print("TODOS");
+    showTodos(todos, verbose);
+      print("DONE TODOS");
+    showDoneTodos(dones, verbose);
   } else {
-    showTodos(todos, false);
+    showTodos(todos, verbose);
   }
 }
 
@@ -45,7 +52,19 @@ void handleTodoAdd(String arg) {
 }
 
 void handleTodoRemove(String arg) {
-  print("handleTodoRemove"); // TODO
+  AppState state = readAppState();
+  List<Todo> todos = readTodos(state.activeWorkspace);
+  List<Todo> keepTodos = [];
+  for (int index = 0; index < todos.length; index++) {
+    if ("$index" != arg && todos[index].id != arg) {
+      keepTodos.add(todos[index]);
+    }
+  }
+  if (todos.length == keepTodos.length) {
+    print("no todo with this id or index found");
+    return;
+  }
+  saveTodos(keepTodos, state.activeWorkspace);
 }
 
 void handleWorkspaceCreate(String arg) {
