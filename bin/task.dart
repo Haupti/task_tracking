@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:task/config/config.dart' as config;
 import 'package:task/domain/handlers.dart' as handlers;
+import 'package:task/domain/state.dart';
+import 'package:task/repository/state_repository.dart';
 
 void initializeAppdataPath() {
   String? path = Platform.environment[config.appdataEnvVar];
@@ -23,6 +25,10 @@ void initializeAppdataPath() {
 
 void main(List<String> arguments) {
   initializeAppdataPath();
+  AppState state = readAppState();
+  if(!state.isWorkspaceSet && !(arguments[0] == "ws" || arguments[0] == "workspace")) {
+      print("no workspace selected, please select a workspace before any task-related options become available");
+  }
 
   switch (arguments) {
     case ["workspace" || "ws", "create", var arg]:
@@ -47,6 +53,8 @@ void main(List<String> arguments) {
       handlers.handleTodoCheck(args);
     case ["list" || "l", ...var args]:
       handlers.handleTodoList(args);
+    case ["--help"]:
+      handlers.helpHandler();
   }
   /*
        planned commands:

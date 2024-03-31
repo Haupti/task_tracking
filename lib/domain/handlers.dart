@@ -109,3 +109,25 @@ void handleWorkspaceSelect(String arg) {
   state.activeWorkspace = selected.id;
   saveAppState(state);
 }
+
+void helpHandler(){
+    String ind = "     ";
+    print("usage: <command> [<subcommand>] [<options>]");
+    print("commands:");
+    print("${ind}workspace list         lists all workspaces");
+    print("${ind}workspace list -v      lists all workspaces and their currently open todos/tasks");
+    print("${ind}workspace select <arg> selects a workspace to be active. all non-workspace commands apply to the selected workspace");
+    print("$ind                       the argument is the name or id of the workspace");
+    print("${ind}workspace create <arg> creates a new workspace, the argument is its name");
+    print("${ind}workspace delete <arg> deletes a workspace and all its active and completed tasks");
+    print("$ind workspace shorthand: ws");
+    print("${ind}add <arg>              adds a todo to the currenlty selected workspace, the argument is the todo");
+    print("${ind}list [<options>] <arg> lists all todos, that are active");
+    print("$ind                       options: '-v'/'--verbose' prints additional information, '-a', '--all' also prints done todos");
+    print("${ind}done <arg>             checks a active todo and moves it to done todos. the argument is its index (when using list) or its id");
+    print("${ind}check <arg>            alias for done");
+    print("${ind}delete <arg>           deletes a todo, not moving it to the completed todos. the argument is its index in the listing (list command) or its id");
+    print("$ind--help                 shows help (this)");
+
+}
+
