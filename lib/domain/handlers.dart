@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:nanoid/nanoid.dart';
 import 'package:task/domain/option.dart';
 import 'package:task/domain/pretty_printer.dart';
@@ -107,6 +105,7 @@ void handleWorkspaceSelect(String arg) {
   Workspace selected =
       wsconfig.workspaces.firstWhere((it) => it.id == arg || it.name == arg);
   state.activeWorkspace = selected.id;
+  state.isWorkspaceSet = true;
   saveAppState(state);
 }
 

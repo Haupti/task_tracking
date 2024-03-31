@@ -28,6 +28,7 @@ void main(List<String> arguments) {
   AppState state = readAppState();
   if(!state.isWorkspaceSet && arguments.isNotEmpty && !(arguments[0] == "ws" || arguments[0] == "workspace")) {
       print("no workspace selected, please select a workspace before any task-related options become available");
+      return;
   }
 
   switch (arguments) {
