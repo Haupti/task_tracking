@@ -26,7 +26,7 @@ void initializeAppdataPath() {
 void main(List<String> arguments) {
   initializeAppdataPath();
   AppState state = readAppState();
-  if(!state.isWorkspaceSet && !(arguments[0] == "ws" || arguments[0] == "workspace")) {
+  if(!state.isWorkspaceSet && arguments.isNotEmpty && !(arguments[0] == "ws" || arguments[0] == "workspace")) {
       print("no workspace selected, please select a workspace before any task-related options become available");
   }
 
@@ -55,6 +55,8 @@ void main(List<String> arguments) {
       handlers.handleTodoList(args);
     case ["--help"]:
       handlers.helpHandler();
+    default:
+      print("???");
   }
   /*
        planned commands:
