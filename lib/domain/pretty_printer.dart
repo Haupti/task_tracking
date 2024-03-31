@@ -19,13 +19,13 @@ void showTodos(List<Todo> todos, bool verbose, {String prefix = ""}) {
   }
 
   if (verbose) {
-    String row = "$prefix[#]   ";
+    String row = "$prefix\x1B[1m[#]   ";
     row += "[id]${" " * (todos[0].id.length - 2)}   ";
     row += "[createdAt]${" " * dateLengthSpacing("createdAt")}   ";
-    row += "description";
+    row += "description\x1B[22m";
     print(row);
   } else {
-    print("$prefix[#]   [description]");
+    print("$prefix\x1B[1m[#]   [description]\x1b[22m");
   }
 
   int index = 0;
@@ -50,14 +50,14 @@ void showDoneTodos(List<DoneTodo> dones, bool verbose, {String prefix = ""}) {
   }
 
   if (verbose) {
-    String row = "$prefix[#]   ";
+    String row = "$prefix\x1B[1m[#]   ";
     row += "[id]${" " * (dones[0].todo.id.length - 2)}   ";
     row += "[createdAt]${" " * dateLengthSpacing("createdAt")}   ";
     row += "[completedAt]${" " * dateLengthSpacing("createdAt")} ";
-    row += "description";
+    row += "description\x1B[22m";
     print(row);
   } else {
-    print("$prefix[#]   [description]");
+    print("$prefix\x1B[1m[#]   [description]\x1B[22m");
   }
 
   int index = 0;

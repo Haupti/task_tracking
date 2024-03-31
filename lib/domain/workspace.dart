@@ -30,11 +30,10 @@ class WorkspacesConfig {
   }
 
   static WorkspacesConfig fromJson(Map<String, dynamic> json) {
-      List<dynamic> jsonArray = json["workspaces"];
+    List<dynamic> jsonArray = json["workspaces"];
     return WorkspacesConfig(
         workspaces: jsonArray.map((it) => Workspace.fromJson(it)).toList());
   }
 
-  WorkspacesConfig.empty():
-      workspaces = [];
+  WorkspacesConfig.empty() : workspaces = [];
 }
